@@ -266,10 +266,10 @@ rather than defining the name, arguments, and options separately.
 class SomeCommand extends Command 
 {
     protected const SIGNATURE = <<<CMD
-            check:http 
-                {url : Site url} 
-                {--S|skip-ssl-errors : Skip SSL errors}
-CMD;
+        check:http 
+            {url : Site url} 
+            {--S|skip-ssl-errors : Skip SSL errors}
+    CMD;
 
 
     public function perform(): int
