@@ -190,10 +190,10 @@ more.
    displaying emails sent by your application during development, so you can view and test emails without actually
    sending them.
 
-4**User-Friendly Interface:** Provides a clean, intuitive web UI that organizes and displays your debugging data in a
+4. **User-Friendly Interface:** Provides a clean, intuitive web UI that organizes and displays your debugging data in a
 way that’s easy to navigate and understand.
 
-5**Dockerized for Easy Setup:** Buggregator is packaged as a Docker container, making it incredibly simple to get up
+5. **Dockerized for Easy Setup:** Buggregator is packaged as a Docker container, making it incredibly simple to get up
 and running in any development environment.
 
 When dealing with complex objects with numerous properties and substantial data, sifting through console output or log
