@@ -277,10 +277,11 @@ final class UserService
 
 ### Send logs to a specific channel
 
-In case you want to log to a specific channel other than the default channel, you can use one of the two methods:
-- A logger factory that implements the `Spiral\Logger\LogsInterface`.
-- The attribute `Spiral\Logger\Attribute\LoggerChannel` with the interface `Psr\Log\LoggerInterface`
-  on the parameter during autowiring.
+There are a few ways to get a logger instance with a specific channel:
+- Using a logger factory that implements the `Spiral\Logger\LogsInterface`.
+- Using the attribute `Spiral\Logger\Attribute\LoggerChannel` on a `Psr\Log\LoggerInterface`
+  parameter during autowiring.
+
 
 :::: tabs
 
