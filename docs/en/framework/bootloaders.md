@@ -83,7 +83,7 @@ class Kernel extends \Spiral\Framework\Kernel
         return [
             // ...
            RoutesBootloader::class,
-        ]
+        ];
     }
 
     public function defineAppBootloaders(): array
