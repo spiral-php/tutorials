@@ -27,7 +27,7 @@ use Spiral\Queue\OptionsInterface;
 final class LogInterceptor implements CoreInterceptorInterface
 {
     public function __construct(
-        private readonly \Psr\Log\LoggerInterface $core,
+        private readonly \Psr\Log\LoggerInterface $logger,
     ) {
     }
     
