@@ -110,9 +110,6 @@ return [
 ];
 ```
 
-To configure a connection to Temporal Cloud or a secure connection to a local server,
-you can use the `ConnectionConfig::createCloud()` or `ConnectionConfig::createSecure()` methods.
-
 ### RoadRunner
 
 In your RoadRunner configuration file `.rr.yaml`, add a section `temporal`. This lets you set the server address and the
