@@ -85,23 +85,33 @@ All you need is to specify the address of your Temporal server in the `.env` fil
 TEMPORAL_ADDRESS=127.0.0.1:7233
 ```
 
-If you want to precisely configure your application, you can create the `temporal.php` configuration file. There you can
-specify options such as a task queue, and individual worker configurations.
+If you want to precisely configure your application, you can create the `temporal.php` configuration file.
+There you can specify options such as a task queue, namespace, and individual worker configurations.
 
 Here is an example configuration file:
 
 ```php app/config/temporal.php
+use Spiral\TemporalBridge\Config\ConnectionConfig;
 use Temporal\Worker\WorkerFactoryInterface;
 use Temporal\Worker\WorkerOptions;
 
 return [
-    'address' => env('TEMPORAL_ADDRESS', '127.0.0.1:7233'),
+    'connection' => env('TEMPORAL_CONNECTION', 'default'),
+    'connections' => [
+        'default' => ConnectionConfig::createInsecure(
+            address: env('TEMPORAL_ADDRESS', 'localhost:7233'),
+        ),
+    ],
+    'temporalNamespace' => 'default',
     'defaultWorker' => WorkerFactoryInterface::DEFAULT_TASK_QUEUE,
     'workers' => [
         'workerName' => WorkerOptions::new()
     ],
 ];
 ```
+
+To configure a connection to Temporal Cloud or a secure connection to a local server,
+you can use the `ConnectionConfig::createCloud()` or `ConnectionConfig::createSecure()` methods.
 
 ### RoadRunner
 
@@ -112,7 +122,7 @@ number of workers. For example:
 ...
 
 temporal:
-  address: localhost:7233
+  address: ${TEMPORAL_ADDRESS:-localhost:7233}
   activities:
     num_workers: 10
 ```
@@ -120,4 +130,35 @@ temporal:
 For more details on configuring Temporal with RoadRunner, read
 the [RoadRunner](https://roadrunner.dev/docs/workflow-temporal) documentation.
 
-That's it! Happy workflow building!
+## Temporal Cloud
+
+If you want to use [Temporal Cloud](https://docs.temporal.io/cloud/get-started),
+you have to configure a secure connection and a specific namespace.
+
+```php app/config/temporal.php
+use Spiral\TemporalBridge\Config\ConnectionConfig;
+
+return [
+    'connection' => 'production',
+    'connections' => [
+        'production' => ConnectionConfig::createCloud(
+            address: 'foo-bar-default.baz.tmprl.cloud:7233',
+            privateKey: '/my-project.key',
+            certChain: '/my-project.pem',
+        ),
+    ],
+    'temporalNamespace' => 'foo-bar-default.baz',
+    // ...
+];
+```
+
+```yaml .rr.yaml
+...
+
+temporal:
+  address: foo-bar-default.baz.tmprl.cloud:7233
+  namespace: foo-bar-default.baz
+  tls:
+    key: /my-project.key
+    cert: /my-project.pem
+```
