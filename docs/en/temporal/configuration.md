@@ -92,6 +92,7 @@ Here is an example configuration file:
 
 ```php app/config/temporal.php
 use Spiral\TemporalBridge\Config\ConnectionConfig;
+use Spiral\TemporalBridge\Config\ClientConfig;
 use Temporal\Worker\WorkerFactoryInterface;
 use Temporal\Worker\WorkerOptions;
 
@@ -99,14 +100,14 @@ return [
     'client' => env('TEMPORAL_CONNECTION', 'default'),
     'clients' => [
         'default' => ClientConfig::new(
-            ConnectionConfig::new(
+            new ConnectionConfig(
                 address: env('TEMPORAL_ADDRESS', 'localhost:7233'),
             ),
         ),
     ],
     'defaultWorker' => WorkerFactoryInterface::DEFAULT_TASK_QUEUE,
     'workers' => [
-        'workerName' => WorkerOptions::new()
+        'workerName' => WorkerOptions::new(),
     ],
 ];
 ```
@@ -134,17 +135,21 @@ If you want to use [Temporal Cloud](https://docs.temporal.io/cloud/get-started),
 you have to configure a secure connection and a specific namespace.
 
 ```php app/config/temporal.php
+use Spiral\TemporalBridge\Config\TlsConfig;
 use Spiral\TemporalBridge\Config\ConnectionConfig;
+use Spiral\TemporalBridge\Config\ClientConfig;
 
 return [
     'client' => 'production',
     'clients' => [
-        'production' => ClientConfig::new(
-            connection: ConnectionConfig::new(address: 'foo-bar-default.baz.tmprl.cloud:7233')
-                ->withTLS(
+        'production' => new ClientConfig(
+            connection: new ConnectionConfig(
+                address: 'foo-bar-default.baz.tmprl.cloud:7233',
+                tlsConfig: new TlsConfig(
                     privateKey: '/my-project.key',
                     certChain: '/my-project.pem',
                 ),
+            ),
             options: (new ClientOptions())
                 ->withNamespace('foo-bar-default.baz'),
     ],
