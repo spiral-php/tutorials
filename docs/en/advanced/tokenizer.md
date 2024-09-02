@@ -455,9 +455,10 @@ TOKENIZER_CACHE_TARGETS=true
 
 #### TargetAttribute
 
-It allows you to filter classes based on their attributes. When you specify a target attribute, the class locator will
-only process classes that have that attribute. This can be useful if you have a listener that only needs to analyze a
-specific type of class, such as a controller class that has a specific routing attribute.
+It allows you to filter classes based on their attributes.
+When you specify a target attribute, the class locator will only process classes that have that attribute.
+This can be useful if you have a listener that only needs to analyze a specific type of class,
+such as a controller class that has a specific routing attribute.
 
 **Here's an example of how to use it:**
 
@@ -471,8 +472,9 @@ final class RouteLocatorListener implements TokenizationListenerInterface
 }
 ```
 
-In this example, the `RouteAttributeListener` will only process classes that have the `Route` attribute. This means
-that if the class locator finds a class without this attribute, it won't call the `listen` method of this listener.
+In this example, the `RouteAttributeListener` will only process classes that have the `Route` attribute.
+This means that if the class locator finds a class without this attribute,
+it won't call the `listen` method of this listener.
 
 You can add multiple attributes to your listener class:
 
@@ -492,7 +494,9 @@ class RouteLocatorListener implements TokenizationListenerInterface
 ```
 
 You can also pass a second parameter `useAnnotations: true` to the attribute to specify that the Tokenizer should look
-for the target attribute in the class annotations as well. For example:
+for the target attribute in the class annotations as well.
+
+Use `scanParents: true` to locate classes that have the target attribute in their parent classes or interfaces.
 
 #### TargetClass
 
