@@ -112,19 +112,24 @@ return [
 ];
 ```
 
-#### Client Options
+#### Client Configuration
 
-Client options are used to configure various aspects of a Temporal client's behavior.
+The `clients` option contains a named list of `ClientConfig` settings for each client.
+The name of the default client is specified in the `client` option.
 
-1. **Namespace Specification:** Allows the specification of a namespace in which the client operations will be
-   performed.
-2. **Client Identity Setting:** This class enables the setting of an identity for the client. This identity is useful
-   for tracking and logging purposes, helping in identifying which client performed certain operations in the Temporal
-   system.
-3. **Query Rejection Condition Configuration:** It offers the ability to set conditions under which query requests to
-   the Temporal server can be rejected.
+`ClientConfig` contains settings for connecting to the Temporal server, gRPC context settings, and client settings.
+These settings will be used when creating Temporal Workflow and Schedule clients.
 
-For example:
+In the connection settings, you can specify the Temporal server address,
+TLS settings, and other credentials, such as an Auth Token.
+By the way, the Auth Token also accepts the `\Stringable` type,
+so you can change its value at runtime without restarting workers.
+
+Customize `ClientOptions` if you need to specify a custom Temporal Namespace or Identity.
+
+With Context, you can specify timeouts, retry settings for RPC calls, and metadata sent with requests.
+
+An example:
 
 ```php app/config/temporal.php
 use Temporal\Client\ClientOptions;
@@ -133,10 +138,23 @@ return [
     // ...
     'clients' => [
         'default' => new ClientConfig(
-           // ...
-           options: (new ClientOptions())
-               ->withNamespace('default')
-               ->withIdentity('customer-service'),
+            connection: new ConnectionConfig(
+                address: 'foo-bar-default.baz.tmprl.cloud:7233',
+                tls: new TlsConfig(),
+                authToken: 'my-secret-token',
+            ),
+            options: (new ClientOptions())
+                ->withNamespace('default')
+                ->withIdentity('customer-service'),
+            context: Context::default()
+                ->withTimeout(4.5)
+                ->withRetryOptions(
+                    RpcRetryOptions::new()
+                        ->withMaximumAttempts(5)
+                        ->withInitialInterval(3)
+                        ->withMaximumInterval(10)
+                        ->withBackoffCoefficient(1.6)
+                ),
 ];
 ```
 
@@ -235,7 +253,7 @@ return [
         'production' => new ClientConfig(
             connection: new ConnectionConfig(
                 address: 'foo-bar-default.baz.tmprl.cloud:7233',
-                tlsConfig: new TlsConfig(
+                tls: new TlsConfig(
                     privateKey: '/my-project.key',
                     certChain: '/my-project.pem',
                 ),
