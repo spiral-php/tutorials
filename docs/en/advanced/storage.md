@@ -238,7 +238,7 @@ return [
 
 </details>
 
-The RoadRunner plugin offers the [Fileserver plugin](https://roadrunner.dev/docs/plugins-fileserver), which facilitates 
+The RoadRunner plugin offers the [Fileserver plugin](https://roadrunner.dev/docs/http-static#file-server-plugin), which facilitates 
 the serving of files from various local storages through the utilization of URL prefixes. This feature enables 
 fine-grained control over the visibility and access of specific files and directories.
 

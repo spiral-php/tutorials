@@ -3,11 +3,11 @@
 Spiral has full integration with [RoadRunner jobs](https://roadrunner.dev/docs/queues-overview) plugin, which provides 
 a unified queueing API for a variety of queue brokers such as:
 
-- [Kafka](https://roadrunner.dev/docs/plugins-jobs#kafka-driver),
-- [AMQP (RabbitMQ)](https://roadrunner.dev/docs/plugins-jobs#amqp-driver),
-- [Amazon SQS](https://roadrunner.dev/docs/plugins-jobs#sqs-driver),
-- [Beanstalk](https://roadrunner.dev/docs/plugins-jobs#beanstalk-driver),
-- and [memory](https://roadrunner.dev/docs/plugins-jobs#memory-driver) driver.
+- [Kafka](https://roadrunner.dev/docs/queues-kafka),
+- [AMQP (RabbitMQ)](https://roadrunner.dev/docs/queues-amqp),
+- [Amazon SQS](https://roadrunner.dev/docs/queues-sqs),
+- [Beanstalk](https://roadrunner.dev/docs/queues-beanstalk),
+- and [memory](https://roadrunner.dev/docs/queues-memory) driver.
 
 > **Note**
 > For more information on supported brokers, please visit the [official site](https://roadrunner.dev/docs/plugins-jobs).
