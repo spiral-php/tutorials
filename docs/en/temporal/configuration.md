@@ -132,7 +132,12 @@ With Context, you can specify timeouts, retry settings for RPC calls, and metada
 An example:
 
 ```php app/config/temporal.php
+use Spiral\TemporalBridge\Config\TlsConfig;
+use Spiral\TemporalBridge\Config\ConnectionConfig;
+use Spiral\TemporalBridge\Config\ClientConfig;
 use Temporal\Client\ClientOptions;
+use Temporal\Client\Common\RpcRetryOptions;
+use Temporal\Client\GRPC\Context;
 
 return [
     // ...
@@ -212,15 +217,16 @@ Using this way you can additionally define an exception interceptor. Read more a
 
 #### Interceptors
 
-Interceptors are used to intercept workflow and activity invocations. They can be used to add custom logic to the
-invocation process, such as logging or metrics collection.
+Interceptors are used to intercept workflow and activity invocations.
+They can be used to add custom logic to the invocation process, such as logging or metrics collection.
 
 Read more about interceptors in the [Temporal — Interceptors](interceptors.md) section.
 
 ### RoadRunner
 
-In your RoadRunner configuration file `.rr.yaml`, add a section `temporal`. This lets you set the server address and the
-number of workers. For example:
+In your RoadRunner configuration file `.rr.yaml`, add a section `temporal`.
+This lets you set the server address and the number of workers.
+For example:
 
 ```yaml .rr.yaml
 ...
@@ -231,10 +237,8 @@ temporal:
     num_workers: 10
 ```
 
-For more details on configuring Temporal with RoadRunner, read
-the [RoadRunner](https://roadrunner.dev/docs/workflow-temporal) documentation.
-
-That's it! Happy workflow building!
+For more details on configuring Temporal with RoadRunner,
+read the [RoadRunner](https://roadrunner.dev/docs/workflow-temporal) documentation.
 
 
 ## Temporal Cloud
@@ -246,6 +250,7 @@ you have to configure a secure connection and a specific namespace.
 use Spiral\TemporalBridge\Config\TlsConfig;
 use Spiral\TemporalBridge\Config\ConnectionConfig;
 use Spiral\TemporalBridge\Config\ClientConfig;
+use Temporal\Client\ClientOptions;
 
 return [
     'client' => 'production',
@@ -275,3 +280,6 @@ temporal:
     key: /my-project.key
     cert: /my-project.pem
 ```
+
+
+That's it! Happy workflow building!
