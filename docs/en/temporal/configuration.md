@@ -85,20 +85,29 @@ All you need is to specify the address of your Temporal server in the `.env` fil
 TEMPORAL_ADDRESS=127.0.0.1:7233
 ```
 
-If you want to precisely configure your application, you can create the `temporal.php` configuration file. There you can
-specify options such as a task queue, and individual worker configurations.
+If you want to precisely configure your application, you can create the `temporal.php` configuration file.
+There you can specify options such as a task queue, namespace, and individual worker configurations.
 
 Here is an example configuration file:
 
 ```php app/config/temporal.php
+use Spiral\TemporalBridge\Config\ConnectionConfig;
+use Spiral\TemporalBridge\Config\ClientConfig;
 use Temporal\Worker\WorkerFactoryInterface;
 use Temporal\Worker\WorkerOptions;
 
 return [
-    'address' => env('TEMPORAL_ADDRESS', '127.0.0.1:7233'),
+    'client' => env('TEMPORAL_CONNECTION', 'default'),
+    'clients' => [
+        'default' => ClientConfig::new(
+            new ConnectionConfig(
+                address: env('TEMPORAL_ADDRESS', 'localhost:7233'),
+            ),
+        ),
+    ],
     'defaultWorker' => WorkerFactoryInterface::DEFAULT_TASK_QUEUE,
     'workers' => [
-        'workerName' => WorkerOptions::new()
+        'workerName' => WorkerOptions::new(),
     ],
 ];
 ```
@@ -112,7 +121,7 @@ number of workers. For example:
 ...
 
 temporal:
-  address: localhost:7233
+  address: ${TEMPORAL_ADDRESS:-localhost:7233}
   activities:
     num_workers: 10
 ```
@@ -120,4 +129,41 @@ temporal:
 For more details on configuring Temporal with RoadRunner, read
 the [RoadRunner](https://roadrunner.dev/docs/workflow-temporal) documentation.
 
-That's it! Happy workflow building!
+## Temporal Cloud
+
+If you want to use [Temporal Cloud](https://docs.temporal.io/cloud/get-started),
+you have to configure a secure connection and a specific namespace.
+
+```php app/config/temporal.php
+use Spiral\TemporalBridge\Config\TlsConfig;
+use Spiral\TemporalBridge\Config\ConnectionConfig;
+use Spiral\TemporalBridge\Config\ClientConfig;
+
+return [
+    'client' => 'production',
+    'clients' => [
+        'production' => new ClientConfig(
+            connection: new ConnectionConfig(
+                address: 'foo-bar-default.baz.tmprl.cloud:7233',
+                tlsConfig: new TlsConfig(
+                    privateKey: '/my-project.key',
+                    certChain: '/my-project.pem',
+                ),
+            ),
+            options: (new ClientOptions())
+                ->withNamespace('foo-bar-default.baz'),
+    ],
+    // ...
+];
+```
+
+```yaml .rr.yaml
+...
+
+temporal:
+  address: foo-bar-default.baz.tmprl.cloud:7233
+  namespace: foo-bar-default.baz
+  tls:
+    key: /my-project.key
+    cert: /my-project.pem
+```
