@@ -263,8 +263,7 @@ final class UserService
 {
     public function __construct(
         private readonly LoggerInterface $logger
-    ) {
-    }
+    ) {}
 
     public function register(string $email, string $password): void
     {
@@ -322,8 +321,7 @@ final class UserService
     public function __construct(
         #[LoggerChannel('my-channel')]
         private readonly LoggerInterface $logger
-    ) {
-    }
+    ) {}
 
     public function register(string $email, string $password): void
     {
