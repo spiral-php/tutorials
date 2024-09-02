@@ -269,7 +269,7 @@ class SomeCommand extends Command
         check:http 
             {url : Site url} 
             {--S|skip-ssl-errors : Skip SSL errors}
-    CMD;
+        CMD;
 
 
     public function perform(): int
