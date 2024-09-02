@@ -263,8 +263,7 @@ final class UserService
 {
     public function __construct(
         private readonly LoggerInterface $logger
-    ) {
-    }
+    ) {}
 
     public function register(string $email, string $password): void
     {
@@ -277,8 +276,15 @@ final class UserService
 
 ### Send logs to a specific channel
 
-In case you want to log to a specific channel other than the default channel, you can use
-the `Spiral\Logger\LogsInterface` class to get a logger for that specific channel.
+There are a few ways to get a logger instance with a specific channel:
+- Using a logger factory that implements the `Spiral\Logger\LogsInterface`.
+- Using the attribute `Spiral\Logger\Attribute\LoggerChannel` on a `Psr\Log\LoggerInterface`
+  parameter during autowiring.
+
+
+:::: tabs
+
+::: tab Using Factory
 
 ```php
 use Psr\Log\LoggerInterface;
@@ -287,6 +293,7 @@ use Spiral\Logger\LogsInterface;
 final class UserService
 {
     private readonly LoggerInterface $logger;
+
     public function __construct(LogsInterface $logs) 
     {
         $this->logger = $logs->channel('my-channel');
@@ -300,6 +307,34 @@ final class UserService
     }
 }
 ```
+
+:::
+
+::: tab Using Attribute
+
+```php
+use Psr\Log\LoggerInterface;
+use Spiral\Logger\Attribute\LoggerChannel;
+
+final class UserService
+{
+    public function __construct(
+        #[LoggerChannel('my-channel')]
+        private readonly LoggerInterface $logger
+    ) {}
+
+    public function register(string $email, string $password): void
+    {
+        // Register user ...
+
+        $this->logger->info('User has been registered', ['email' => $email]);
+    }
+}
+```
+
+:::
+
+::::
 
 ### Logger trait
 
