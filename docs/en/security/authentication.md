@@ -528,7 +528,7 @@ public function index(EntityManagerInterface $entityManager)
     $user->username = 'username';
     $user->password = \password_hash('password', PASSWORD_DEFAULT);
 
-    $entityManager->persist($u)->run();
+    $entityManager->persist($user)->run();
 }
 ```
 
