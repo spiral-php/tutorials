@@ -2,7 +2,7 @@
 
 Spiral designed to facilitate the development of long-running applications while ensuring efficient memory
 management and the prevention of memory leaks. This is achieved through the utilization of
-advanced [memory management techniques](../framework/scopes.md). Additionally, it is paired with RoadRunner, further
+advanced [memory management techniques](../container/scopes.md). Additionally, it is paired with RoadRunner, further
 enhancing the overall performance and scalability of the application.
 
 RoadRunner is a high-performance PHP application server and process manager that enables long-running capabilities for
