@@ -107,7 +107,7 @@ application at various points in the processing flow. However, unlike middleware
 requests, interceptors can be used to add functionality to a wide range of components.
 
 Interceptors should implement the `Spiral\Core\CoreInterceptorInterface` interface, which requires them to define
-a `callAction` method. This method is called by the framework at specific points in the application's execution, such
+a `process` method. This method is called by the framework at specific points in the application's execution, such
 as before or after a controller action is invoked.
 
 For example, we could create an `SlowQueryDetectorInterceptor` class that implements the `CoreInterceptorInterface` and
