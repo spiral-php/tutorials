@@ -1,4 +1,4 @@
-# IoC Scopes in Spiral Framework
+# Container — IoC Scopes
 
 Building long-lasting applications requires proper management of context. In many systems, you can no longer treat user requests as global singletons stored across services.
 
